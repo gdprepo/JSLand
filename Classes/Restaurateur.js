@@ -1,0 +1,4 @@
+
+class Restaurateur extends Personnes {
+
+}
