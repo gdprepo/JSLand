@@ -19,7 +19,7 @@ class Restaurateur extends Personne {
 
         while (index !== nbr) {
             rnd = Math.ceil(Math.random() * 5);
-            if (rnd === chance) desert += 1;
+            if (rnd === test) desert += 1;
             index++;
         }
         return desert;
@@ -29,8 +29,8 @@ class Restaurateur extends Personne {
         return client.budget - prixaPayer >= 0;
     }
 
-    reponse() {
-        let nbrMenu1, nbrMenu2, nbr;
+    reponse(client, restaurant) {
+        let nbrMenu1, nbrMenu2, nbrPersonne;
         do {
             nbrPersonne = parseInt(
                 input.question(this.say(`Ah bonjour ! Combien êtes vous ?`))
@@ -58,14 +58,33 @@ class Restaurateur extends Personne {
             }
         } while (isNaN(nbrMenu2) || nbrMenu2 < 0);
 
-        if (nbrMenu1 + nbrMenu2 === nbr) {
+        if (nbrMenu1 + nbrMenu2 === nbrPersonne) {
             let prixTotal = nbrMenu1 * restaurant.prixMenu1 + nbrMenu2 * restaurant.prixMenu2;
 
             if (this.formulA()) {
                 prixTotal = Math.floor((prixTotal -= prixTotal * 0.2));
+                this.say(`Ca vous fera ${totalPrice} euros s'il vous plait !`);
+
+                if (this.verifierTransaction(client, prixTotal)) {
+                    client.payment(restaurant, prixTotal);
+                    let desert = this.ajouterDesert(nbr);
+                    this.say(`Vous avez -20% sur votre formule`);
+                    if (desert) {
+                        this.say(`Vous avez ${desert} dessert(s) en plus...`);
+                    }
+                } else {
+                    this.say(`Vous n'avez pas assez sur votre compte...`);
+                }
             }
+        } else {
+            this.say(`Erreur de saisie : On recommence...`);
+            this.reponse(client, restaurant);
         }
 
+    }
+
+    prefix() {
+        return `Restaurateur(${super.prefix()})`;
     }
 
 }

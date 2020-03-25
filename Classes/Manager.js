@@ -63,7 +63,7 @@ class Manager extends Personne {
 
     recevoirPlainte(client) {
         if (client.lastPaymentDone()) {
-            if (this.containsEmployee(client._lastPayment.what.employee)) {
+            if (this.checkEmploye(client._lastPayment.what.employee)) {
                 this.say(
                     `Quoi ?! Votre derniere expérience au ${client._lastPayment.what.name} avec ${client._lastPayment.what.employee.firstName} ${client._lastPayment.what.employee.lastName} ne vous a pas convaincu ?? Laissez moi vous dédommager. Tenez voilà ${client._lastPayment.howMany} euros.`
                 );

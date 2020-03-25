@@ -41,7 +41,6 @@ class Client extends Personne {
         if (reponse[0] === "") {
             reponse.splice(0, 1);
         }
-        console.log(reponse.length);
         attraction.recevoirClient(this, reponse, reponse.length);
       
     }

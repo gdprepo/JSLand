@@ -27,7 +27,7 @@ class Restaurant extends Batiment {
         this._prixMenu2 = value;
     }
 
-    receiveClient(client) {
+    recevoirClient(client) {
         this.employee.reponse(client, this);
     }
 }
